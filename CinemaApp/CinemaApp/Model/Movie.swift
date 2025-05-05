@@ -5,7 +5,7 @@
 //  Created by Ella Gibbs on 6/5/2025.
 //
 
-import Foundation
+import SwiftUI
 
 struct Movie: Hashable, Codable {
     var title: String
