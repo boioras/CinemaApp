@@ -12,4 +12,9 @@ struct Movie: Hashable, Codable {
     var rating: Float
     var description: String
     var runtime: Int
+    
+    private var imageName: String
+    var image: Image {
+        Image(imageName)
+    }
 }
