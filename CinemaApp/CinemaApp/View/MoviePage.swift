@@ -99,7 +99,7 @@ struct MoviePage: View {
                         
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 10) {
-                                ForEach(["12:30 PM", "3:00 PM", "6:15 PM", "9:30 PM"], id: \.self) { time in
+                                ForEach(["6:15 PM", "9:30 PM"], id: \.self) { time in
                                     Button(action: {
                                         // Will connect to booking later
                                         print("Selected time: \(time)")
