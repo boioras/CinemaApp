@@ -8,19 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var user = User()
+
     var body: some View {
         TabView {
             HomePage()
-                .tabItem() {
+                .tabItem {
                     Image(systemName: "film")
                     Text("Movies")
                 }
             BookingsPage()
-                .tabItem() {
+                .tabItem {
                     Image(systemName: "book.fill")
                     Text("Bookings")
                 }
         }
+        .environmentObject(user)
     }
 }
 

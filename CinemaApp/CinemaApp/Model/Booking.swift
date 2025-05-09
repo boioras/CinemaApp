@@ -7,9 +7,16 @@
 
 import Foundation
 
-struct Booking {
+struct Seat: Identifiable, Hashable {
+    var id = UUID()
+    var number: Int
+    var isBooked: Bool
+}
+
+struct Booking: Identifiable, Hashable {
+    var id = UUID()
     var movie: Movie
-    var seatNo: Int
+    var seats: [Seat]
     var sessionDate: Date
     var sessionTime: String
 }

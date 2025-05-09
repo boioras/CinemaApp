@@ -7,6 +7,10 @@
 
 import Foundation
 
-struct User {
-    var bookingList: [Booking]
+class User: ObservableObject {
+    @Published var bookings: [Booking] = []
+    
+    func cancelBooking(_ booking: Booking) {
+        bookings.removeAll { $0.id == booking.id }
+    }
 }
