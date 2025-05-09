@@ -27,7 +27,7 @@ struct MoviePage: View {
                 ZStack(alignment: .bottom) {
                     // Try to load the image with the name matching the movie title
                     // If it can't be found, use a placeholder
-                    Image(posterName)
+                    movie.image
                         .resizable()
                         .scaledToFill()
                         .frame(height: 250)
@@ -39,12 +39,6 @@ struct MoviePage: View {
                                     ZStack {
                                         Rectangle()
                                             .fill(Color.gray.opacity(0.3))
-                                        VStack {
-                                            Image(systemName: "film")
-                                                .font(.system(size: 40))
-                                            Text("Poster not found")
-                                                .font(.caption)
-                                        }
                                         .foregroundColor(.gray)
                                     }
                                 }
