@@ -64,3 +64,32 @@ struct BookingsPage: View {
         return formatter.string(from: date)
     }
 }
+
+// preview block
+struct BookingsPage_Previews: PreviewProvider {
+    static var previews: some View {
+        // mock movie
+        let mockMovie = Movie(
+            title: "Thunderbolts",
+            rating: 7.7,
+            description: "Marvel Studios and a crew of indie veterans who sold out present \"Thunderbolts,\" an irreverent team-up.",
+            runtime: 127,
+            imageName: "thunderbolts"
+        )
+
+        // dummy booking
+        let mockBooking = Booking(
+            movie: mockMovie,
+            seats: [Seat(number: 1, isBooked: true), Seat(number: 2, isBooked: true)],
+            sessionDate: Date(),
+            sessionTime: "7:00 PM"
+        )
+
+        // mock user with booking
+        let mockUser = User()
+        mockUser.bookings = [mockBooking]
+
+        return BookingsPage()
+            .environmentObject(mockUser)
+    }
+}
