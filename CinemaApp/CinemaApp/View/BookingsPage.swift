@@ -9,9 +9,11 @@ import SwiftUI
 
 struct BookingsPage: View {
     @EnvironmentObject var user: User
+    @State var showPopUp = false
     
     var body: some View {
         NavigationView {
+            
             List {
                 // no bookings placeholder
                 if user.bookings.isEmpty {
@@ -41,8 +43,8 @@ struct BookingsPage: View {
                                 Spacer()
                                 
                                 // cancel button
-                                Button(role: .destructive) {
-                                    user.cancelBooking(booking)
+                                Button() {
+                                    showPopUp.toggle()
                                 } label: {
                                     Image(systemName: "trash")
                                         .foregroundColor(.red)
@@ -50,11 +52,26 @@ struct BookingsPage: View {
                             }
                         }
                         .padding(.vertical, 5)
+                        .alert(isPresented: $showPopUp){
+                            Alert(
+                                title: Text("Cancel Booking"),
+                                message: Text("Are you sure you want to cancel this booking?"),
+                                primaryButton: .destructive(Text("Cancel")){
+                                    user.cancelBooking(booking)
+                                },
+                                secondaryButton: .cancel(Text("Return"))
+                            )
+                        }
                     }
                 }
+                    
             }
             .navigationTitle("Your Bookings") // title of the navigation bar
         }
+    }
+    
+    private func delete(booking: Booking){
+        user.cancelBooking(booking)
     }
     
     // helper function to format dates
@@ -69,7 +86,7 @@ struct BookingsPage: View {
 struct BookingsPage_Previews: PreviewProvider {
     static var previews: some View {
         // mock movie
-
+        
         // dummy booking
         let mockBooking = Booking(
             movie: movies[0],
@@ -77,11 +94,11 @@ struct BookingsPage_Previews: PreviewProvider {
             sessionDate: Date(),
             sessionTime: "7:00 PM"
         )
-
+        
         // mock user with booking
         let mockUser = User()
         mockUser.bookings = [mockBooking]
-
+        
         return BookingsPage()
             .environmentObject(mockUser)
     }
