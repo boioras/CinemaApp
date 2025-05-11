@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MoviePage: View {
     let movie: Movie
-    
+    @State var select: String = ""
     
     private var posterName: String {
         // Convert movie title to lowercase and remove special characters
@@ -25,8 +25,6 @@ struct MoviePage: View {
             VStack(alignment: .leading) {
                 // Movie poster from assets
                 ZStack(alignment: .bottom) {
-                    // Try to load the image with the name matching the movie title
-                    // If it can't be found, use a placeholder
                     movie.image
                         .resizable()
                         .scaledToFill()
@@ -101,14 +99,20 @@ struct MoviePage: View {
                             HStack(spacing: 10) {
                                 ForEach(["6:15 PM", "9:30 PM"], id: \.self) { time in
                                     Button(action: {
-                                        // Will connect to booking later
-                                        print("Selected time: \(time)")
+                                        if(select == time){
+                                            select = ""
+                                        } else {
+                                            select = time
+                                        }
+                                        // connect to seats screen here
+                                        // send session time data
                                     }) {
                                         Text(time)
                                             .padding(.horizontal, 12)
                                             .padding(.vertical, 8)
-                                            .background(Color.blue)
-                                            .foregroundColor(.white)
+                                            .background(select == time ? Color.blue : Color.white)
+                                            .border(select == time ? Color.blue : Color.gray, width: 2.5)
+                                            .foregroundColor(select == time ? Color.white : Color.black)
                                             .cornerRadius(6)
                                     }
                                 }
@@ -127,14 +131,20 @@ struct MoviePage: View {
                             HStack(spacing: 10) {
                                 ForEach(["1:00 PM", "4:30 PM", "7:45 PM", "10:15 PM"], id: \.self) { time in
                                     Button(action: {
-                                        // Will connect to booking later
-                                        print("Selected time: \(time)")
+                                        if(select == time){
+                                            select = ""
+                                        } else {
+                                            select = time
+                                        }
+                                        // connect to seats screen here
+                                        // send session time data
                                     }) {
                                         Text(time)
                                             .padding(.horizontal, 12)
                                             .padding(.vertical, 8)
-                                            .background(Color.blue)
-                                            .foregroundColor(.white)
+                                            .background(select == time ? Color.blue : Color.white)
+                                            .border(select == time ? Color.blue : Color.gray, width: 2.5)
+                                            .foregroundColor(select == time ? Color.white : Color.black)
                                             .cornerRadius(6)
                                     }
                                 }
