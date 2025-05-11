@@ -9,16 +9,9 @@ import SwiftUI
 
 struct MoviePage: View {
     let movie: Movie
-    @State var select: String = ""
-    
-    private var posterName: String {
-        // Convert movie title to lowercase and remove special characters
-
-        return movie.title.lowercased()
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-            .replacingOccurrences(of: ":", with: "")
-            .replacingOccurrences(of: " ", with: "")
-    }
+    @State private var selectedTime: String = ""
+    @State private var selectedDate: Date = Date()
+    @State private var navigateToSeatPage = false
     
     var body: some View {
         ScrollView {
@@ -80,21 +73,15 @@ struct MoviePage: View {
                             HStack(spacing: 10) {
                                 ForEach(["6:15 PM", "9:30 PM"], id: \.self) { time in
                                     Button(action: {
-                                        if(select == time){
-                                            select = ""
-                                        } else {
-                                            select = time
-                                        }
-                                        // connect to seats screen here
-                                        // send session time data
-                                        // send todays date using Date()
+                                        selectedTime = time
+                                        selectedDate = Date()
                                     }) {
                                         Text(time)
                                             .padding(.horizontal, 12)
                                             .padding(.vertical, 8)
-                                            .background(select == time ? Color.blue : Color.white)
-                                            .border(select == time ? Color.blue : Color.gray, width: 2.5)
-                                            .foregroundColor(select == time ? Color.white : Color.black)
+                                            .background(selectedTime == time && Calendar.current.isDateInToday(selectedDate) ? Color.blue : Color.white)
+                                            .border(selectedTime == time && Calendar.current.isDateInToday(selectedDate) ? Color.blue : Color.gray, width: 2.5)
+                                            .foregroundColor(selectedTime == time && Calendar.current.isDateInToday(selectedDate) ? Color.white : Color.black)
                                             .cornerRadius(6)
                                     }
                                 }
@@ -104,6 +91,8 @@ struct MoviePage: View {
                     .padding(.top, 4)
                     
                     // Tomorrow's showtimes
+                    let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
+                    
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Tomorrow")
                             .font(.subheadline)
@@ -113,23 +102,15 @@ struct MoviePage: View {
                             HStack(spacing: 10) {
                                 ForEach(["1:00 PM", "4:30 PM", "7:45 PM", "10:15 PM"], id: \.self) { time in
                                     Button(action: {
-                                        if(select == time){
-                                            select = ""
-                                        } else {
-                                            select = time
-                                        }
-                                        
-                                        // connect to seats screen here
-                                        // send session time data
-                                        // send todays tmrs date
-                                        // var tmr = Date().addingTimeInterval(60 * 60 * 24)
+                                        selectedTime = time
+                                        selectedDate = tomorrow
                                     }) {
                                         Text(time)
                                             .padding(.horizontal, 12)
                                             .padding(.vertical, 8)
-                                            .background(select == time ? Color.blue : Color.white)
-                                            .border(select == time ? Color.blue : Color.gray, width: 2.5)
-                                            .foregroundColor(select == time ? Color.white : Color.black)
+                                            .background(selectedTime == time && Calendar.current.isDate(selectedDate, inSameDayAs: tomorrow) ? Color.blue : Color.white)
+                                            .border(selectedTime == time && Calendar.current.isDate(selectedDate, inSameDayAs: tomorrow) ? Color.blue : Color.gray, width: 2.5)
+                                            .foregroundColor(selectedTime == time && Calendar.current.isDate(selectedDate, inSameDayAs: tomorrow) ? Color.white : Color.black)
                                             .cornerRadius(6)
                                     }
                                 }
@@ -139,22 +120,37 @@ struct MoviePage: View {
                     
                     // Book button
                     Button(action: {
-                        print("Book button tapped")
+                        if !selectedTime.isEmpty {
+                            navigateToSeatPage = true
+                        }
                     }) {
                         Text("Book Tickets")
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.blue)
+                            .background(selectedTime.isEmpty ? Color.gray : Color.blue)
                             .foregroundColor(.white)
                             .cornerRadius(8)
                     }
+                    .disabled(selectedTime.isEmpty)
                     .padding(.top, 20)
                 }
                 .padding()
             }
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
+            .background(
+                NavigationLink(
+                    destination: SeatPage(
+                        movie: movie,
+                        sessionTime: selectedTime,
+                        sessionDate: selectedDate
+                    ),
+                    isActive: $navigateToSeatPage
+                ) {
+                    EmptyView()
+                }
+            )
         }
-        .navigationTitle("")
-        .navigationBarTitleDisplayMode(.inline)
     }
     
     // Helper function to format runtime
@@ -162,6 +158,11 @@ struct MoviePage: View {
         let hours = minutes / 60
         let mins = minutes % 60
         return "\(hours)h \(mins)m"
+    }
+    
+    // Helper function to check if a date is today
+    private func isToday(_ date: Date) -> Bool {
+        return Calendar.current.isDateInToday(date)
     }
 }
 
