@@ -28,28 +28,9 @@ struct MoviePage: View {
                     movie.image
                         .resizable()
                         .scaledToFill()
-                        .frame(height: 250)
+                        .frame(height: 600)
+                        .cornerRadius(20)
                         .clipped()
-                        .overlay(
-                            // Fallback if image doesn't load
-                            GeometryReader { geo in
-                                if UIImage(named: posterName) == nil {
-                                    ZStack {
-                                        Rectangle()
-                                            .fill(Color.gray.opacity(0.3))
-                                        .foregroundColor(.gray)
-                                    }
-                                }
-                            }
-                        )
-                    
-                    // Gradient overlay for text visibility
-                    LinearGradient(
-                        gradient: Gradient(colors: [.clear, .black.opacity(0.7)]),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .frame(height: 100)
                 }
                 
                 // Movie details
@@ -188,7 +169,7 @@ struct MoviePage: View {
 struct MoviePage_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            MoviePage(movie: movies[0])
+            MoviePage(movie: movies[1])
         }
     }
 }
