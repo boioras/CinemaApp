@@ -174,12 +174,7 @@ struct MoviePage: View {
 struct MoviePage_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-//            MoviePage(movie: Movie(
-//                title: "Sinners",  // Use one of your asset names for testing
-//                rating: 8.8,
-//                description: "A gripping drama about redemption and the consequences of one's actions.",
-//                runtime: 148
-//            ))
+            MoviePage(movie: movies[0])
         }
     }
 }
