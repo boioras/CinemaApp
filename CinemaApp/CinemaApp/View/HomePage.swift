@@ -17,6 +17,7 @@ struct HomePage: View {
             VStack {
                 Text("Now Showing")
                     .font(.title)
+                    .fontWeight(.bold)
                 
                 ScrollView(.vertical, showsIndicators: false){
                     LazyVGrid(columns: layout) {
