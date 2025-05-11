@@ -105,7 +105,8 @@ struct MoviePage: View {
                                             select = time
                                         }
                                         // connect to seats screen here
-                                        // send session time data using Date
+                                        // send session time data
+                                        // send todays date using Date()
                                     }) {
                                         Text(time)
                                             .padding(.horizontal, 12)
@@ -136,8 +137,11 @@ struct MoviePage: View {
                                         } else {
                                             select = time
                                         }
+                                        
                                         // connect to seats screen here
-                                        // send session time data using Date
+                                        // send session time data
+                                        // send todays tmrs date
+                                        // var tmr = Date().addingTimeInterval(60 * 60 * 24)
                                     }) {
                                         Text(time)
                                             .padding(.horizontal, 12)
