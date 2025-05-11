@@ -105,7 +105,7 @@ struct MoviePage: View {
                                             select = time
                                         }
                                         // connect to seats screen here
-                                        // send session time data
+                                        // send session time data using Date
                                     }) {
                                         Text(time)
                                             .padding(.horizontal, 12)
@@ -137,7 +137,7 @@ struct MoviePage: View {
                                             select = time
                                         }
                                         // connect to seats screen here
-                                        // send session time data
+                                        // send session time data using Date
                                     }) {
                                         Text(time)
                                             .padding(.horizontal, 12)
