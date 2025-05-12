@@ -9,26 +9,107 @@ import SwiftUI
 
 struct BookingDetailPage: View {
     let booking: Booking
-    @EnvironmentObject var user: User
+
+    // seat grid constants
+    private let rowsCount = 6
+    private let seatsPerRow = 10
+    private var totalSeats: Int { rowsCount * seatsPerRow }
+    private var leftSide: Range<Int> { 0..<(totalSeats / 2) }
+    private var rightSide: Range<Int> { (totalSeats / 2)..<totalSeats }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            booking.movie.image
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .cornerRadius(10)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 12) {
+                // booking details
+                Text(booking.movie.title)
+                    .font(.title)
+                    .bold()
+                
+                Divider()
+                
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Session Details")
+                        .font(.headline)
+                    
+                    HStack {
+                        Image(systemName: "calendar")
+                        Text(formattedDate(booking.sessionDate))
+                    }
+                    .font(.subheadline)
+                    
+                    HStack {
+                        Image(systemName: "clock")
+                        Text(booking.sessionTime)
+                    }
+                    .font(.subheadline)
+                }
+                
+                Divider()
+                
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Your Seats")
+                        .font(.headline)
+                    
+                    Text(booking.seats.map { $0.number }
+                         .sorted()
+                         .map { "\($0)" }
+                         .joined(separator: ", "))
+                        .font(.subheadline)
+                }
+                
+                Divider()
+                
+                    .padding(.vertical, 10)
 
-            Text(booking.movie.title)
-                .font(.title)
-                .bold()
+                // screen
+                VStack(spacing: 10) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 5)
+                            .frame(width: 280, height: 8)
+                            .foregroundColor(.gray)
+                        Text("SCREEN")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                            .offset(y: 18)
+                    }
+                    
+                    Spacer().frame(height: 30)
 
-            Text("Time: \(booking.sessionTime)")
-            Text("Date: \(formattedDate(booking.sessionDate))")
-            Text("Seats: \(booking.seats.map { "\($0.number)" }.joined(separator: ", "))")
+                    // seat grid
+                    HStack(spacing: 30) {
+                        let leftColumns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 5)
+                        LazyVGrid(columns: leftColumns, spacing: 13) {
+                            ForEach(leftSide, id: \.self) { index in
+                                let seatNumber = index + 1
+                                SeatView(
+                                    seatNumber: seatNumber,
+                                    isSelected: isMySeat(seatNumber),
+                                    isBooked: false,
+                                    isMyBooking: false
+                                )
+                            }
+                        }
 
-            Spacer()
+                        let rightColumns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 5)
+                        LazyVGrid(columns: rightColumns, spacing: 13) {
+                            ForEach(rightSide, id: \.self) { index in
+                                let seatNumber = index + 1
+                                SeatView(
+                                    seatNumber: seatNumber,
+                                    isSelected: isMySeat(seatNumber),
+                                    isBooked: false,
+                                    isMyBooking: false
+                                )
+                            }
+                        }
+                    }
+                    .padding(.top)
+                }
+
+                Spacer()
+            }
+            .padding()
         }
-        .padding()
         .navigationTitle("Booking Details")
     }
 
@@ -36,5 +117,9 @@ struct BookingDetailPage: View {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         return formatter.string(from: date)
+    }
+
+    private func isMySeat(_ number: Int) -> Bool {
+        booking.seats.contains { $0.number == number }
     }
 }
