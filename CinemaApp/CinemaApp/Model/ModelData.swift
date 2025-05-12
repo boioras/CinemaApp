@@ -28,6 +28,30 @@ func load<T: Decodable>(_ filename: String) -> T {
         let decoder = JSONDecoder()
         return try decoder.decode(T.self, from: data)
     } catch {
-        fatalError("Caouldn't parse \(filename) as \(T.self):\n\(error)")
+        fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
     }
+}
+
+func loadRatings(title: String) async throws -> String {
+    var movieResponse: MovieRating
+    var urlString = "https://omdbapi.com/?&apikey=a411cec0&t=\(title)&y=2025"
+    var url = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+    
+        guard let url = URL(string: url!) else {
+            print("fail url")
+            return ""
+        }
+
+        let (data, response) = try await URLSession.shared.data(from: url)
+
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return ""}
+
+        do {
+            movieResponse = try JSONDecoder().decode(MovieRating.self, from: data)
+        } catch {
+            print("fail decode")
+            return ""
+        }
+
+    return movieResponse.imdbRating
 }

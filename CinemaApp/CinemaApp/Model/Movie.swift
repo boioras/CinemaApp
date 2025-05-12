@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+struct MovieRating: Codable {
+    let imdbRating: String
+}
+
 struct Movie: Hashable, Codable {
     var title: String
     var rating: Float
@@ -17,7 +21,7 @@ struct Movie: Hashable, Codable {
     var image: Image {
         Image(imageName)
     }
-    
+
     // allow previews
     init(title: String, rating: Float, description: String, runtime: Int, imageName: String) {
         self.title = title
