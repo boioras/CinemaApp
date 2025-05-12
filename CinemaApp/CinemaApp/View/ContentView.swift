@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var user = User()
-
+    
     var body: some View {
         TabView {
             HomePage()
