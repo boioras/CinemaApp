@@ -279,7 +279,7 @@ struct PaymentPage: View {
                 
                 Text("Processing Payment...")
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
             }
             .padding(30)
             .background(Color(.systemGray6))
