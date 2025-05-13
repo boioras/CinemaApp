@@ -204,7 +204,7 @@ struct SeatPage: View {
     // Loads already booked seats from other bookings
     private func loadBookedSeats() {
         // Adding some default booked seats
-        var tempBookedSeats = [3, 7, 12, 22, 30, 34, 41, 45]
+        let tempBookedSeats = [3, 7, 12, 22, 30, 34, 41, 45]
         
         // To not add seats already booked by the user
         bookedSeats = tempBookedSeats.filter { !isMyBookedSeat($0) }
