@@ -169,7 +169,13 @@ struct SeatPage: View {
             .padding(.bottom, 20)
         }
         .navigationBarHidden(true)
+        // onAppear and onChange now update the bookedSeats and UI each time the view appears or when the user’s bookings change + reset selectedseats to stop old selections from being visible
         .onAppear {
+            selectedSeats = []
+            loadBookedSeats()
+        }
+        .onChange(of: user.bookings) { _ in
+            selectedSeats = []
             loadBookedSeats()
         }
         .background(

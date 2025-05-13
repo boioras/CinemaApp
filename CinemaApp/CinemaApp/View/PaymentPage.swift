@@ -346,37 +346,16 @@ struct PaymentPage: View {
     // MARK: - action functions
     
     private func processPayment() {
-        // start processing animation
         paymentProcessing = true
-        
-        // simulate payment processing
+
+        // simulate delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            if simulatePaymentSuccess() {
-                // successful
-                paymentSuccessful = true
-                alertMessage = "Payment successful! Your booking is confirmed."
-            } else {
-                // failed
-                paymentSuccessful = false
-                alertMessage = "Payment failed. Please check your card details and try again."
-            }
+            paymentSuccessful = true
+            alertMessage = "Payment successful! Your booking is confirmed."
             
             paymentProcessing = false
             showingAlert = true
         }
-    }
-    
-    private func simulatePaymentSuccess() -> Bool {
-        // for demo purposes, simulating a payment success/failure
-        // this is to be replaced with actual payment gateway integration
-        let lastFourDigits = cardNumber.filter { $0.isNumber }.suffix(4)
-        
-        // payment succeeds if last digit is even (for demo)
-        if let lastDigit = Int(String(lastFourDigits.last ?? "0")) {
-            return lastDigit % 2 == 0
-        }
-        
-        return false
     }
     
     // MARK: - helper functions
@@ -407,7 +386,7 @@ struct PaymentPage: View {
         // saving bookings
         user.saveBookings(bookings: user.bookings)
         
-        // dismiss, so that screen goes bakc - seat selection can be updated and thus blocks possibility of repeat booking payment
+        // dismiss, so that screen goes back - seat selection can be updated and thus blocks possibility of repeat booking payment
         presentationMode.wrappedValue.dismiss()
     }
 }
