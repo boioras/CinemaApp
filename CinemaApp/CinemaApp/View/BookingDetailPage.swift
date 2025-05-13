@@ -17,6 +17,10 @@ struct BookingDetailPage: View {
     private var leftSide: Range<Int> { 0..<(totalSeats / 2) }
     private var rightSide: Range<Int> { (totalSeats / 2)..<totalSeats }
 
+    @EnvironmentObject var user: User
+    @Environment(\.presentationMode) var presentationMode
+    @State private var showPopUp = false
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 12) {
@@ -58,7 +62,6 @@ struct BookingDetailPage: View {
                 }
                 
                 Divider()
-                
                     .padding(.vertical, 10)
 
                 // screen
@@ -111,6 +114,27 @@ struct BookingDetailPage: View {
             .padding()
         }
         .navigationTitle("Booking Details")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button { // individual cancel button
+                    showPopUp = true
+                } label: {
+                    Image(systemName: "trash")
+                        .foregroundColor(.red)
+                }
+            }
+        }
+        .alert(isPresented: $showPopUp) {
+            Alert(
+                title: Text("Cancel Booking"),
+                message: Text("Are you sure you want to cancel this booking?"),
+                primaryButton: .destructive(Text("Cancel")) {
+                    user.cancelBooking(booking)
+                    presentationMode.wrappedValue.dismiss()
+                },
+                secondaryButton: .cancel(Text("Return"))
+            )
+        }
     }
 
     private func formattedDate(_ date: Date) -> String {
