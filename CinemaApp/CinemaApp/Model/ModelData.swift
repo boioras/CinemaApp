@@ -9,11 +9,12 @@ import Foundation
 
 var movies: [Movie] = load("movieData.json")
 
+// Loads data from ViewModel
 func load<T: Decodable>(_ filename: String) -> T {
     let data: Data
     
     guard let file = Bundle.main.url(forResource: filename, withExtension: nil)
-    
+            
     else{
         fatalError("Couldn't find \(filename) in main bundle.")
     }
@@ -28,6 +29,34 @@ func load<T: Decodable>(_ filename: String) -> T {
         let decoder = JSONDecoder()
         return try decoder.decode(T.self, from: data)
     } catch {
-        fatalError("Caouldn't parse \(filename) as \(T.self):\n\(error)")
+        fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
     }
+}
+
+// Loads rating from API using movie title
+func loadRating(title: String) async throws -> String {
+    var movieResponse: MovieRating
+    let urlString = "https://omdbapi.com/?&apikey=a411cec0&t=\(title)&y=2025"
+    let url = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+    
+    guard let url = URL(string: url!) else {
+        print("fail url")
+        return ""
+    }
+    
+    let (data, response) = try await URLSession.shared.data(from: url)
+    
+    guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+        print("bad status code")
+        return ""
+    }
+    
+    do {
+        movieResponse = try JSONDecoder().decode(MovieRating.self, from: data)
+    } catch {
+        print("fail decode")
+        return ""
+    }
+    
+    return movieResponse.imdbRating
 }

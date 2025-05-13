@@ -14,11 +14,13 @@ class User: ObservableObject {
         self.bookings = loadBookings()
     }
     
+    // Cancel booking function
     func cancelBooking(_ booking: Booking) {
         bookings.removeAll { $0.id == booking.id }
         saveBookings(bookings: bookings)
     }
     
+    // Loads bookings from iPhone local storage
     func loadBookings() -> [Booking] {
         do {
             let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -30,6 +32,7 @@ class User: ObservableObject {
         }
     }
     
+    // Saves bookings to iPhone local storage
     func saveBookings(bookings: [Booking]) {
         do {
             let data = try JSONEncoder().encode(bookings)

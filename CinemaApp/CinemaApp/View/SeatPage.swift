@@ -16,7 +16,7 @@ struct SeatPage: View {
     @State private var showBookingConfirmation = false
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var user: User
-
+    
     // Constants for the seat grid
     private let rowsCount = 6
     private let seatsPerRow = 10
@@ -185,8 +185,8 @@ struct SeatPage: View {
     private func isMyBookedSeat(_ seatNumber: Int) -> Bool {
         for booking in user.bookings {
             if booking.movie.title == movie.title &&
-               booking.sessionTime == sessionTime &&
-               Calendar.current.isDate(booking.sessionDate, inSameDayAs: sessionDate) {
+                booking.sessionTime == sessionTime &&
+                Calendar.current.isDate(booking.sessionDate, inSameDayAs: sessionDate) {
                 if booking.seats.contains(where: { $0.number == seatNumber }) {
                     return true
                 }
@@ -198,12 +198,12 @@ struct SeatPage: View {
     // Loads already booked seats from other bookings
     private func loadBookedSeats() {
         // Adding some default booked seats
-        var tempBookedSeats = [3, 7, 12, 22, 30, 34, 41, 45]
+        let tempBookedSeats = [3, 7, 12, 22, 30, 34, 41, 45]
         
         // To not add seats already booked by the user
         bookedSeats = tempBookedSeats.filter { !isMyBookedSeat($0) }
     }
-
+    
     // Helper function to toggle seat selection
     private func toggleSeatSelection(_ seatNumber: Int) {
         if selectedSeats.contains(seatNumber) {
@@ -285,14 +285,14 @@ struct SeatView: View {
             RoundedRectangle(cornerRadius: 6)
                 .stroke(
                     isBooked ? Color.gray :
-                    isMyBooking ? Color.gray :
-                    Color.blue,
+                        isMyBooking ? Color.gray :
+                        Color.blue,
                     lineWidth: 2
                 )
                 .background(
                     isSelected ? Color.blue :
-                    isMyBooking ? Color.gray :
-                    Color.clear
+                        isMyBooking ? Color.gray :
+                        Color.clear
                 )
                 .cornerRadius(6)
                 .frame(width: 30, height: 30)

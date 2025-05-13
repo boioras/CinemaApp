@@ -70,6 +70,7 @@ struct BookingsPage: View {
                         }
                     }
                 }
+
             }
             .navigationTitle("Your Bookings") // title of the navigation bar
         }

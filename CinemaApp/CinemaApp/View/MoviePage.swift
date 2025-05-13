@@ -12,6 +12,7 @@ struct MoviePage: View {
     @State private var selectedTime: String = ""
     @State private var selectedDate: Date = Date()
     @State private var navigateToSeatPage = false
+    @State private var rating = ""
     
     var body: some View {
         ScrollView {
@@ -38,7 +39,16 @@ struct MoviePage: View {
                         HStack(spacing: 4) {
                             Image(systemName: "star.fill")
                                 .foregroundColor(.yellow)
-                            Text(String(format: "%.1f", movie.rating) + "/10")
+                            Text(rating.isEmpty ? "Loading..." : "\(rating)/10")
+                        }
+                        .task {
+                            // Loads rating from API
+                            do {
+                                rating = try await loadRating(title: movie.title)
+                                if(rating == "N/A") { rating = String(format: "%.1f", movie.rating) }
+                            } catch {
+                                print("error")
+                            }
                         }
                         Spacer()
                         HStack(spacing: 4) {

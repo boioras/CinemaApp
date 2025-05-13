@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+// MovieRating struct for API call
+struct MovieRating: Codable {
+    let imdbRating: String
+}
+
+// Movie struct
 struct Movie: Hashable, Codable {
     var title: String
     var rating: Float
