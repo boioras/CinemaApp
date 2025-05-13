@@ -23,6 +23,7 @@
 		630578ED2DC900750063CD7D /* BookingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630578EC2DC900750063CD7D /* BookingsPage.swift */; };
 		630578F02DC901560063CD7D /* movieData.json in Resources */ = {isa = PBXBuildFile; fileRef = 630578EF2DC901560063CD7D /* movieData.json */; };
 		630578F22DC903440063CD7D /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630578F12DC903440063CD7D /* ModelData.swift */; };
+		A26CD6362DD22E25007CBDFB /* BookingDetailPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26CD6352DD22E24007CBDFB /* BookingDetailPage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		630578EC2DC900750063CD7D /* BookingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingsPage.swift; sourceTree = "<group>"; };
 		630578EF2DC901560063CD7D /* movieData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = movieData.json; sourceTree = "<group>"; };
 		630578F12DC903440063CD7D /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
+		A26CD6352DD22E24007CBDFB /* BookingDetailPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingDetailPage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +168,7 @@
 				630578E82DC900500063CD7D /* MoviePage.swift */,
 				630578EA2DC900680063CD7D /* SeatPage.swift */,
 				630578EC2DC900750063CD7D /* BookingsPage.swift */,
+				A26CD6352DD22E24007CBDFB /* BookingDetailPage.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				630578B52DC7C3C00063CD7D /* CinemaApp.swift in Sources */,
 				630578E52DC8FE4E0063CD7D /* User.swift in Sources */,
 				630578E92DC900500063CD7D /* MoviePage.swift in Sources */,
+				A26CD6362DD22E25007CBDFB /* BookingDetailPage.swift in Sources */,
 				630578F22DC903440063CD7D /* ModelData.swift in Sources */,
 				630578ED2DC900750063CD7D /* BookingsPage.swift in Sources */,
 				630578E12DC8FE2D0063CD7D /* Movie.swift in Sources */,
