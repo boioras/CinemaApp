@@ -24,6 +24,7 @@
 		630578F02DC901560063CD7D /* movieData.json in Resources */ = {isa = PBXBuildFile; fileRef = 630578EF2DC901560063CD7D /* movieData.json */; };
 		630578F22DC903440063CD7D /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630578F12DC903440063CD7D /* ModelData.swift */; };
 		A26CD6362DD22E25007CBDFB /* BookingDetailPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26CD6352DD22E24007CBDFB /* BookingDetailPage.swift */; };
+		AC6144562DD363A400F6F122 /* PaymentPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6144552DD363A400F6F122 /* PaymentPage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		630578EF2DC901560063CD7D /* movieData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = movieData.json; sourceTree = "<group>"; };
 		630578F12DC903440063CD7D /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		A26CD6352DD22E24007CBDFB /* BookingDetailPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingDetailPage.swift; sourceTree = "<group>"; };
+		AC6144552DD363A400F6F122 /* PaymentPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentPage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 				630578E62DC900440063CD7D /* HomePage.swift */,
 				630578E82DC900500063CD7D /* MoviePage.swift */,
 				630578EA2DC900680063CD7D /* SeatPage.swift */,
+				AC6144552DD363A400F6F122 /* PaymentPage.swift */,
 				630578EC2DC900750063CD7D /* BookingsPage.swift */,
 				A26CD6352DD22E24007CBDFB /* BookingDetailPage.swift */,
 			);
@@ -315,6 +318,7 @@
 				630578B72DC7C3C00063CD7D /* ContentView.swift in Sources */,
 				630578E72DC900440063CD7D /* HomePage.swift in Sources */,
 				630578E32DC8FE350063CD7D /* Booking.swift in Sources */,
+				AC6144562DD363A400F6F122 /* PaymentPage.swift in Sources */,
 				630578EB2DC900680063CD7D /* SeatPage.swift in Sources */,
 				630578B52DC7C3C00063CD7D /* CinemaApp.swift in Sources */,
 				630578E52DC8FE4E0063CD7D /* User.swift in Sources */,

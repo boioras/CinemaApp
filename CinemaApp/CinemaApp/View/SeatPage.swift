@@ -13,10 +13,10 @@ struct SeatPage: View {
     let sessionDate: Date
     @State private var selectedSeats: [Int] = []
     @State private var bookedSeats: [Int] = []
-    @State private var showBookingConfirmation = false
+    @State private var navigateToPayment = false
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var user: User
-    
+
     // Constants for the seat grid
     private let rowsCount = 6
     private let seatsPerRow = 10
@@ -153,11 +153,11 @@ struct SeatPage: View {
             .cornerRadius(12)
             .padding(.horizontal)
             
-            // Book button
+            // Proceed to Payment button (changed from Confirm Booking)
             Button(action: {
-                confirmBooking()
+                navigateToPayment = true
             }) {
-                Text("Confirm Booking")
+                Text("Proceed to Payment")
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(selectedSeats.isEmpty ? Color.gray : Color.blue)
@@ -172,21 +172,27 @@ struct SeatPage: View {
         .onAppear {
             loadBookedSeats()
         }
-        .alert(isPresented: $showBookingConfirmation) {
-            Alert(
-                title: Text("Booking Confirmed"),
-                message: Text("Your booking for \(movie.title) at \(sessionTime) on \(formattedDate(sessionDate)) has been confirmed."),
-                dismissButton: .default(Text("OK"))
-            )
-        }
+        .background(
+            NavigationLink(
+                destination: PaymentPage(
+                    movie: movie,
+                    selectedSeats: selectedSeats,
+                    sessionTime: sessionTime,
+                    sessionDate: sessionDate
+                ),
+                isActive: $navigateToPayment
+            ) {
+                EmptyView()
+            }
+        )
     }
     
     // Checks if current user has already booked this seat for this session
     private func isMyBookedSeat(_ seatNumber: Int) -> Bool {
         for booking in user.bookings {
             if booking.movie.title == movie.title &&
-                booking.sessionTime == sessionTime &&
-                Calendar.current.isDate(booking.sessionDate, inSameDayAs: sessionDate) {
+               booking.sessionTime == sessionTime &&
+               Calendar.current.isDate(booking.sessionDate, inSameDayAs: sessionDate) {
                 if booking.seats.contains(where: { $0.number == seatNumber }) {
                     return true
                 }
@@ -198,12 +204,12 @@ struct SeatPage: View {
     // Loads already booked seats from other bookings
     private func loadBookedSeats() {
         // Adding some default booked seats
-        let tempBookedSeats = [3, 7, 12, 22, 30, 34, 41, 45]
+        var tempBookedSeats = [3, 7, 12, 22, 30, 34, 41, 45]
         
         // To not add seats already booked by the user
         bookedSeats = tempBookedSeats.filter { !isMyBookedSeat($0) }
     }
-    
+
     // Helper function to toggle seat selection
     private func toggleSeatSelection(_ seatNumber: Int) {
         if selectedSeats.contains(seatNumber) {
@@ -242,35 +248,6 @@ struct SeatPage: View {
         formatter.dateStyle = .medium
         return formatter.string(from: date)
     }
-    
-    // Function to confirm booking and save it
-    private func confirmBooking() {
-        // Creates Seat objects from selected seat numbers
-        let seats = selectedSeats.map { Seat(number: $0, isBooked: true) }
-        
-        // Creates new booking
-        let newBooking = Booking(
-            movie: movie,
-            seats: seats,
-            sessionDate: sessionDate,
-            sessionTime: sessionTime
-        )
-        
-        // Adds to user's bookings
-        user.bookings.append(newBooking)
-        
-        // Saves bookings
-        user.saveBookings(bookings: user.bookings)
-        
-        // Shows confirmation dialog
-        showBookingConfirmation = true
-        
-        // Clears selection (in same page)
-        selectedSeats = []
-        
-        // Updating the booked seats view
-        loadBookedSeats()
-    }
 }
 
 // Seat view component
@@ -285,14 +262,14 @@ struct SeatView: View {
             RoundedRectangle(cornerRadius: 6)
                 .stroke(
                     isBooked ? Color.gray :
-                        isMyBooking ? Color.gray :
-                        Color.blue,
+                    isMyBooking ? Color.gray :
+                    Color.blue,
                     lineWidth: 2
                 )
                 .background(
                     isSelected ? Color.blue :
-                        isMyBooking ? Color.gray :
-                        Color.clear
+                    isMyBooking ? Color.gray :
+                    Color.clear
                 )
                 .cornerRadius(6)
                 .frame(width: 30, height: 30)
@@ -333,4 +310,3 @@ struct SeatPage_Previews: PreviewProvider {
         }
     }
 }
-
