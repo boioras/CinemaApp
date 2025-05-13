@@ -9,6 +9,7 @@ import Foundation
 
 var movies: [Movie] = load("movieData.json")
 
+// Loads data from ViewModel
 func load<T: Decodable>(_ filename: String) -> T {
     let data: Data
     
@@ -32,7 +33,8 @@ func load<T: Decodable>(_ filename: String) -> T {
     }
 }
 
-func loadRatings(title: String) async throws -> String {
+// Loads rating from API using movie title
+func loadRating(title: String) async throws -> String {
     var movieResponse: MovieRating
     let urlString = "https://omdbapi.com/?&apikey=a411cec0&t=\(title)&y=2025"
     let url = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
@@ -44,7 +46,10 @@ func loadRatings(title: String) async throws -> String {
     
     let (data, response) = try await URLSession.shared.data(from: url)
     
-    guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return ""}
+    guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+        print("bad status code")
+        return ""
+    }
     
     do {
         movieResponse = try JSONDecoder().decode(MovieRating.self, from: data)

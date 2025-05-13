@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomePage: View {
     var body: some View {
+        // Layout of grid for scroll view
         let layout = [
             GridItem(.fixed(170)),
             GridItem(.fixed(170))
@@ -19,6 +20,7 @@ struct HomePage: View {
                     .font(.title)
                     .fontWeight(.bold)
                 
+                // Movie grid with poster and title
                 ScrollView(.vertical, showsIndicators: false){
                     LazyVGrid(columns: layout) {
                         ForEach(movies, id: \.self) { movie in
